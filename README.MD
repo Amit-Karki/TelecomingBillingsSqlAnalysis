@@ -1,113 +1,199 @@
 # **Telecom Billing & Churn Analysis**
 
-## **Introduction:**
-Dataset used for Telecom Billing & Churn Analysis is extracted from kaggle. The data is cleaned, transformed and then loaded into the postgres database where further analysis is done. 
+Which telecom customers pay their bills badly or leave the company, and what can the company do about it?
 
-## **Tables:**
-1. ['Billing.csv'](https://drive.google.com/file/d/1mIDRmPqZLYjvcyuS32BkQTObJpbSpIEC/view?usp=sharing) 
-2. ['support_tickets.csv'](https://drive.google.com/file/d/13RbDkz5y6JJMJ9jp1EAMttax6gzQJ9Gh/view?usp=sharing)
-3. ['subscriber.csv'](https://drive.google.com/file/d/1jagUZgF9_okRTMf5x6pZ3o7edse2I_yH/view?usp=sharing)
-4. ['churn_labels.csv'](https://drive.google.com/file/d/1dcsV8-PYyK8QGFrfg1O6qMN1Eop8EUfJ/view?usp=drive_link)
-5. ['usage_logs.csv'](https://drive.google.com/file/d/1xy2O7oEPRRCyTnBTJYfqwYEdgnSmwlva/view?usp=sharing)
+## **Introduction**
 
-Every table is interconnected with each other with a primary key of subscriber_id or composite key of subscriber_id and year_month.
+The dataset used for this analysis is from Kaggle ([https://www.kaggle.com/datasets/sergionefedov/telecom-500k-subscribers-with-usage-logs]). The data was cleaned, transformed and loaded into a PostgreSQL database, where all the analysis was done with help of SQL (DBeaver). It covers about 500,000 subscribers from 2025-07 to 2026-05. For uploading globally I used VSCode where I wrote further README files.
 
-## Key Definations:
+**Tools:** PostgreSQL, DBeaver, Excel(charts),VSCode
+**SQL skills used:** CTEs, window functions (`LAG`), `FILTER`, `BOOL_OR`, `PERCENTILE_CONT`, multi-table joins, customer-level aggregation
 
-**Good Payment:** The Payment which is done in Time.
+## **Key Findings**
 
-**Bad Payment:** The payment which is not done in Time which may include failed payment, paid late or not pend payments.
+- 14.15% of the bills are paid badly. Unpaid and failed bills accounts which are at risk only  4.8% of total  bills, but they are worth about $11 M.
+- Extra charges like overage and romaing  doesnot causes bad payments. The bad payment rate is about 14% in each charge ranges.
+- A bad payment in last month increases  the chance of another bad payment which  17.82% bad payment  vs 13.55% in case of previous month is good payment
+- Customers with an escalated support ticket churn the most: which is almost 43% compared to  25.69% for no support tickets.
+- Heavy data users are mostly avilable on  the expensive plans like   Business with  37.62% and Premium with  30.91%, while Basic and Prepaid have almost zero heavy users
 
-**Escalated Tickets:** The ticket which issued to the Subscriber when the Subcriber have a serious issue and the issue can't be solved by the low level Customer Service Department so it is passed to high level employees.
+## **Tables**
+
+| [billing.csv](https://drive.google.com/file/d/1mIDRmPqZLYjvcyuS32BkQTObJpbSpIEC/view?usp=sharing) | Monthly bills, charges, payment status |
+| [support_tickets.csv](https://drive.google.com/file/d/13RbDkz5y6JJMJ9jp1EAMttax6gzQJ9Gh/view?usp=sharing) | Support tickets, issue type, escalated or not |
+| [subscriber.csv](https://drive.google.com/file/d/1jagUZgF9_okRTMf5x6pZ3o7edse2I_yH/view?usp=sharing) | Subscriber profile, plan type, monthly charge |
+| [churn_labels.csv](https://drive.google.com/file/d/1dcsV8-PYyK8QGFrfg1O6qMN1Eop8EUfJ/view?usp=drive_link) | Whether a subscriber churned, date and reason |
+| [usage_logs.csv](https://drive.google.com/file/d/1xy2O7oEPRRCyTnBTJYfqwYEdgnSmwlva/view?usp=sharing) | Monthly data, voice, SMS and roaming usage |
+
+`subscriber_id` is the primary key of the subscribers table and links all the other tables. `billing` and `usage_logs` are also linked by the composite key  of `subscriber_id` + `year_month`.
+
+## **Key Definitions**
+
+**Good Payment:** a bill that is paid on time.
+
+**Bad Payment:** a bill that is not paid on time. It includes failed, unpaid and paid late bills.
+
+**Escalated Ticket:**  A user with suport ticket reports the problem but the lower level employee cannot solve it and the issue is passed to the higher level employee.
+
+**Extra Charge:**  Sum of `data_overage_usd,intl_roaming_usd`. Extra charges are divided into Low, Mid and High by the 33rd and 66th percentile of the non-zero charges.
+
+**Heavy User:** a subscriber whose average monthly data usage is at least 2 times the average of all subscribers for that specific category service.
+
+**Subscriber Type:** based on lifetime value (LTV) after tax. High Value is above the average LTV, Mid Value is between the median and the average, and Low Value is at or below the median.
 
 ## **Analysis**
 
-### **Query0:**
-**Question:** 
-         What is the share of low, high and mid value subscriber
-         in basis of total customer count? 
-
-**Finding:**
-       Low Value Subscribers holds the highest share of the total Subscribers. Almost every 1 in 2 Subscribers are Low Value Subscriber i.e 50.00% followed by High Value Subscribers at almost 40.20% and Mid Value Subscribers at 9.79%.
-
-**Action:** 
-      Company Should focus on how can it increase  revenue from the low value customers as they are the majority customers which can be done by giving cheaper mobile data and calling while decreasing margin in individual sales but due to massive customer base the revenue and profit can increase dastrically. For high value customer high data rates can be not that much problemetic but quality service should be provided as they are more prone to leave the service if found dissatisfaction in the service. Mid Value Customers can be targeted with mid range of prices.
-
-
-### ***Query1:***
-
-**Question:** 
-         Categorize the bills with respect to the payment status of the bill, marking each category share in total bills.
-
-**Finding:**
-        Almost all of the bills are paid in time i.e 85.85% followed by bills which are paid late at 9.38%, unpaid bills at 1.82% and fail to pay bills at 2.96%. 
-
-**Action:** 
-       The real risk of revenue here is from the bills which are unpaid or failed to pay. Despite these bills combined contribute only 4% of total bills but the combined monetory value of these bills is $ 11M which is a significant amount. So for the recovery of these bills various steps can be taken like blocking all incoming calls, message remainders etc.
-
-
-### **Query2:**
-
-**Question:** 
-         Do users with extra bill charges(further categorized into low,mid and high) have higher bad payment percentages in comparision to the users with no extra bill charge
-
-**Finding:**
-         We found that the bills with extra charge  whether the charge is low, mid or very high doesn't corresponds to higher bad payments percentage. So the overpriced bills have no coorelation with the high bad payment rates.
-
-**Action:** 
-        idk
-      
-
-### **Query 3:**
+### **Query 0: Subscriber Type**
+**SQL file:** [00_Subscribertype.sql](SqlScripts/00_Subscribertype.sql)
 
 **Question:**
-         Do good or bad payment of the previous month of the bill impacts the future bad payment rate?
-**Finding:**
-         We found that if there is a good payment previous month by the subscriber then in aggegrate the bad payment rate is almost 1.3 times lesser than that of the  Subscribers with bad payment previous month.
+What is the share of low, mid and high value subscribers in the total subscriber count?
+**graph** 
+![alt text](image-7.png)
 
-**Action:** 
-       In case of customers with bad payments previous months alert message can be sent to pay the bills in time as they are likely to have bad payment. Also if a customers have a bad payments in a row or frequently then fines may be applied.
+Result:
+![alt text](image.png)
 
-### **Query 4:**
-
-**Question:** 
-        Do Subscribers with at least one bad payment in their entire life have higher churned rate in comparision to the customers with no bad payment in their entire life?
-**Finding:**
-        We found out that the Subscribers who have at least one bad payment in their entire life have almost 1.2 times higher churned rate in comparision to those with no any bad payment in their entire life.
-
-**Action:** Bad Payments alone doesn't guarantees that the  money can't be recovered. High Churn is very dangerous to a healthy company so the company must study why there is high churned rate among custoers with at least one bad payment. This may be the cause of the frequent automated message due to bad payment which irritated the customer.
-
-
-### **Query 5:** 
-
-**Question:** 
-        Do Customers who have at least on escalated ticket 
-         have highere churned rate in comparision to the customers with zero escalated ticket? (Note: Only taken in account customers who have reach the support team)
-**Finding:**
-        We found out that the subscribers who have been issued at least one escalated ticket have 1.6 times higher churned rate than the one who have been never issued with escalated ticket.
-
-**Action:** 
-       High Churned Rate of the customers with escalted ticket may be the cause that the issue was't solved properly by the high level customer service properly or there was a huge delay in solving these problems. So the company must investigate the issue further more detailly.
-
-
-### **Query 6:**
-
-**Question:**
-         Does the plan type affects the heavy user percentage?
 
 **Finding:**
-         We have found out that the user who have the business plan have the highest heavy users which is around 37.62% followed by Postpaid premium at 30.91%, Postpaid Standard at 12.91%, PostPaid basics at 0.0024% and at last is prepaid at 0.00%.
+Low Value Subscribers hold the largest share. Almost 1 in 2 subscribers is a Low Value Subscriber (50.00%), followed by High Value at 40.20% and Mid Value at 9.79%.
 
 **Action:**
-        We know more data consumed means the user is heavy user.
-        As the data consumption rate in the PostPaid basics and Standard is lesser so the revenue will be also lesser so the data rate should be affordable for these user plan so that they use maximum data and even with low margin there is a high net revenue.
+The company should focus on increasing revenue from the low value subscribers, as they are the majority. One option is cheaper data and calling plans. The margin per customer would be lower, but with such a large customer base the total revenue and profit could still rise a lot. High value customers can handle higher data rates, but good service quality matters for them. Mid value customers can be targeted with mid range prices.
+
+### **Query 1: Payment Status of the Bills**
+**SQL file:** [01_bad_payment_size.sql](SqlScripts/01_bad_payment_size.sql)
+
+**Question:**
+How are the bills divided by payment status, and what is the share and money value of each category?
+**Visualization**
+![alt text](image-8.png)
+
+![alt text](image-1.png)
 
 
+**Finding:**
+Almost all of the bills are paid on time (85.85%), followed by paid late bills (9.38%), failed bills (2.96%) and unpaid bills (1.82%).
 
+**Action:**
+The real revenue risk is in the unpaid and failed bills. Together they are only account for about 4.8% of the total bills, but their combined monetory value is about $11 M, which is a significant amount. To recover them, the company can restrict incoming calls, send message reminders regularly and so on. Paid late bills still bring the money with extra revenue so automatic reminders are enough for them but they also can't be ignored completely as late revenue may halt in capital required for infrastructure upgrade, loan repayment etc.
+
+### **Query 2: Extra Charges and Bad Payment**
+**SQL file:** [02_extra_charges_vs_bad_payment.sql](SqlScripts/02_extra_charges_vs_bad_payment.sql)
+
+**Question:**
+Do bills with extra charges (divided into low, mid and high) have a higher bad payment percentage compared to the  bills with no extra charge?
+
+![alt text](image-2.png)
+
+
+**Finding:**
+The bad payment percentage is almost the same in every category which is  around 14%, whether the extra charge is low, mid or high. So the extra charges have no any relation with the bad payment rate.
+
+**Action:**
+The company should not target reminders only on the basis of customers with overage or roaming charges, since it would not help. The reason for bad payments has to be found somewhere else, like the payment history of the customer which is further discussed in query 3.
+
+### **Query 3: Previous Month Payment**
+**SQL file:** [03_previous_month_bad_payment.sql](SqlScripts/03_previous_month_bad_payment.sql)
+
+**Question:**
+Does a good or bad payment in the previous month affects the bad payment rate of the next bill?
+
+!![alt text](image-3.png)
+
+**Finding:**
+After a good payment month, 13.55% of the bills are bad. After a bad payment month, 17.82% are bad. So a subscriber with a bad payment last month is almost about 1.3 times more likely to pay badly again.
+
+**Action:**
+Subscribers who had a bad payment in the previous month can be sent an alert message to pay on time, as they are more likely to pay badly. If a subscriber has bad payments in a row or very often, the company can think about applying extra fines or restric service access
+
+*Note: each subscriber's first bill is left out because it has no previous month.*
+
+### **Query 4: Bad Payment and Churn**
+**SQL file:** [04_bad_payment_vs_churn.sql](SqlScripts/04_bad_payment_vs_churn.sql)
+
+**Question:**
+Do subscribers with at least one bad payment during the data period have a higher churn rate than subscribers who always paid on time?
+
+![alt text](image-4.png)
+
+**Finding:**
+Subscribers with at least one bad payment have a churn rate about 1.2 times higher which is 24.52% compared to the subscribers who always paid on time which have around 20.08% churned rate.
+
+**Action:**
+A bad payment alone does not mean the money cannot be recovered, but high churn is dangerous for a healthy company. So the company should study why churn is higher among subscribers with a bad payment. One possible reason is that the frequent automated reminder messages irritate customers, but this is not tested in this analysis.
+
+### **Query 5: Escalated Tickets and Churn**
+**SQL file:** [05_escalated_ticket_vs_churn.sql](SqlScripts/05_escalated_ticket_vs_churn.sql)
+
+**Question:**
+Do subscribers with at least one escalated ticket have a higher churn rate than subscribers with no escalated ticket?
+(Note: only subscribers who contacted the support team are taken into account.)
+
+![alt text](image-5.png)
+
+**Finding:**
+Subscribers with at least one escalated ticket have a churn rate about 1.6 times higher which is 42.57% compared to the  subscribers who never had an escalated ticket which is 25.69%. This is the strongest churn link in the entire analysis.
+
+**Action:**
+The high churn of these subscribers may be because the issue was not solved properly by the higher level support, or because solving it took too long. The company should investigate this in more detail, for example with the resolution time and satisfaction columns, and give priority follow up to escalated customers.
+
+### **Query 6: Heavy Users by Plan Type**
+**SQL file:** [06_heavy_users_by_plan.sql](SqlScripts/06_heavy_users_by_plan.sql)
+
+**Question:**
+Does the plan type affect the percentage of heavy users?
+
+![alt text](image-6.png)
+
+**Finding:**
+The plan type clearly affects the heavy user percentage. Business has the most heavy users (37.62%), followed by Postpaid Premium (30.92%) and Postpaid Standard (12.92%). Postpaid Basic (0.0024%) and Prepaid (0%) have almost zero heavy users. So the heavy users are mostly on the expensive plans.
+
+**Action:**
+Basic and Prepaid users rarely use heavy data, so data upgrade offers should not go to them. The Standard plan has about 19,000 heavy users, so they are the best group for an upgrade offer to Premium. For the low usage plans, an affordable data rate can encourage users to use more data, and even with a low margin the net revenue can grow.
+
+*Note: my first version used each plan's own average as the cutoff, which forced every plan to about 15% heavy users and hid the real difference. Using one cutoff for all plans fixed it.*
+
+## **Summary**
+
+| # | Question | Result | Action |
+|---|---|---|---|
+| 0 | Subscriber type share | 50% Low, 40.2% High, 9.8% Mid | Grow revenue from Low Value users |
+| 1 | Payment status | 14.15% bad, $11 M Failed + Unpaid | Focus recovery on Failed and Unpaid |
+| 2 | Extra charges | About 14% in every band | Don't target reminders by charges |
+| 3 | Previous month | 17.82% vs 13.55% | Alert after the first bad payment |
+| 4 | Bad payment and churn | 24.52% vs 20.08% | Study why bad payers churn |
+| 5 | Escalated ticket and churn | 42.57% vs 25.69% | Priority follow up on escalations |
+| 6 | Heavy users by plan | Business 37.62%, Premium 30.92% | Upgrade offer to Standard heavy users |
 
 ## **Limitation**
 
--  DataSet is recorded under a short interval of time so cannot be used for detailed analysis like revenue per cohort year, churned rates per cohort year etc. It only contains telecom information from 2025 to 2026 with many missing months in between.
+- The dataset covers a short interval (2025-07 to 2026-05) and the month 2026-02 is missing. So it cannot be used for detailed analysis like revenue or churn rate per cohort year.
+- The results show a link, not a cause. For example, a subscriber may pay badly or escalate a ticket after already deciding to leave.
+- The data is artificial, so the insights may not represent the true characteristics of a real company.
 
-- Artificial data so the insights may not represent the true characteristics.
+## **Next Steps**
 
+- Build a churn risk score using bad payments, escalated tickets and usage drop
+- Check if the usage drops before a subscriber churns
+- Build a Power BI dashboard
+
+## **Repository Structure**
+
+```
+Telecom-Billing-Churn-Analysis/
+├── README.md
+├── DDL&dataload/
+└── SqlScripts/
+    ├── query_00_Subscribertype.sql
+    ├── query_01_bad_payment_size.sql
+    ├── query_02_extra_charges_vs_bad_payment.sql
+    ├── query_03_previous_month_bad_payment.sql
+    ├── query_04_bad_payment_vs_churn.sql
+    ├── query_05_escalated_ticket_vs_churn.sql
+    └── query_06_heavy_users_by_plan.sql
+```
+
+## **Author**
+**AmitKarki** | [LinkedIn](www.linkedin.com/in/amit-karki-2447063bb
+)| [[Email Me](mailto:your.iiswiikar@gmail.com)]

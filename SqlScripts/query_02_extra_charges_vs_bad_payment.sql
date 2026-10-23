@@ -28,7 +28,7 @@ SELECT
 	"OverPricing",
       COUNT(*) AS "Total Payments",
       COUNT(*) FILTER(WHERE "Payment Status" <> 'Good Payment') AS "Total Bad Payments",
-      (COUNT(*) FILTER(WHERE "Payment Status" <> 'Good Payment')::numeric  / COUNT(*)) * 100 || ' %' AS "Bad Payments Percentage"
+      (COUNT(*) FILTER(WHERE "Payment Status" <> 'Good Payment')::numeric  / COUNT(*)) * 100 || ' %' AS "Bad Payments Share"
       FROM PaymentStatus 
       GROUP BY "OverPricing"
       

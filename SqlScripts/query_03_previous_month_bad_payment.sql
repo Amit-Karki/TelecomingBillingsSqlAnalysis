@@ -18,7 +18,7 @@ PreviousMonthStatus AS(
 	"Previous Month Status",
 	COUNT(*) AS "Total Payments",
 	COUNT(*) FILTER(WHERE "Payment" = 'Bad Payment') AS "Total Bad Payments",
-	ROUND((COUNT(*) FILTER(WHERE "Payment" = 'Bad Payment')::numeric / COUNT(*))* 100, 2) || ' %' AS "Bad Payments Percent"
+	ROUND((COUNT(*) FILTER(WHERE "Payment" = 'Bad Payment')::numeric / COUNT(*))* 100, 2) || ' %' AS "Bad Payments Share"
 From
 	previousMonthStatus
 WHERE
