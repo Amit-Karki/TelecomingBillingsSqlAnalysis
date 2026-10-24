@@ -4,7 +4,7 @@ Which telecom customers pay their bills badly or leave the company, and what can
 
 ## **Introduction**
 
-The dataset used for this analysis is from Kaggle [Kaggle Source data ](https://www.kaggle.com/datasets/sergionefedov/telecom-500k-subscribers-with-usage-logs) . The data was cleaned, transformed and loaded into a PostgreSQL database, where all the analysis was done with help of SQL (DBeaver). It covers about 500,000 subscribers from 2025-07 to 2026-05. For uploading globally I used VSCode where I wrote further README files.
+The dataset used for this analysis is from Kaggle [ Source data ](https://www.kaggle.com/datasets/sergionefedov/telecom-500k-subscribers-with-usage-logs) . The data was cleaned, transformed and loaded into a PostgreSQL database, where all the analysis was done with help of SQL (DBeaver). It covers about 500,000 subscribers from 2025-07 to 2026-05. For uploading globally I used VSCode where I wrote further README files.
 
 **Tools:** PostgreSQL, DBeaver, Excel(charts),VSCode
 **SQL skills used:** CTEs, window functions (`LAG`), `FILTER`, `BOOL_OR`, `PERCENTILE_CONT`, multi-table joins, customer-level aggregation
@@ -52,7 +52,7 @@ What is the share of low, mid and high value subscribers in the total subscriber
 ![alt text](image-7.png)
 
 Result:
-[query result] (A:\Downloads\TelecomingBillingsSqlAnalysis\SqlScripts\query_00_Subscribertype.sql)
+[query result] (imagestable/query_00_table.png)
 
 **Finding:**
 Low Value Subscribers hold the largest share. Almost 1 in 2 subscribers is a Low Value Subscriber (50.00%), followed by High Value at 40.20% and Mid Value at 9.79%.
@@ -68,7 +68,8 @@ How are the bills divided by payment status, and what is the share and money val
 **Visualization**
 ![alt text](image-8.png)
 
-[query1result table](A:\Downloads\TelecomingBillingsSqlAnalysis\SqlScripts\query_01_bad_payment_size.sql)
+Result:
+[query1result table](imagestable/query_01_table.png)
 **Finding:**
 Almost all of the bills are paid on time (85.85%), followed by paid late bills (9.38%), failed bills (2.96%) and unpaid bills (1.82%).
 
@@ -83,7 +84,8 @@ Do bills with extra charges (divided into low, mid and high) have a higher bad p
 
 ![alt text](image-2.png)
 
-[query2 result] (A:\Downloads\TelecomingBillingsSqlAnalysis\SqlScripts\query_02_extra_charges_vs_bad_payment.sql)
+Result:
+[query2 result] ((imagestable/query_02_table.png))
 **Finding:**
 The bad payment percentage is almost the same in every category which is  around 14%, whether the extra charge is low, mid or high. So the extra charges have no any relation with the bad payment rate.
 
@@ -97,7 +99,7 @@ The company should not target reminders only on the basis of customers with over
 Does a good or bad payment in the previous month affects the bad payment rate of the next bill?
 
 !![alt text](image-3.png)
-[query3 result] (A:\Downloads\TelecomingBillingsSqlAnalysis\SqlScripts\query_03_previous_month_bad_payment.sql)
+[query3 result] (imagestable/query_03_table.png)
 **Finding:**
 After a good payment month, 13.55% of the bills are bad. After a bad payment month, 17.82% are bad. So a subscriber with a bad payment last month is almost about 1.3 times more likely to pay badly again.
 
@@ -114,7 +116,7 @@ Do subscribers with at least one bad payment during the data period have a highe
 
 ![alt text](image-4.png)
 
-[query4 result] (A:\Downloads\TelecomingBillingsSqlAnalysis\SqlScripts\query_04_bad_payment_vs_churn.sql)
+[query4 result] (imagestable/query_04_table.png)
 
 **Finding:**
 Subscribers with at least one bad payment have a churn rate about 1.2 times higher which is 24.52% compared to the subscribers who always paid on time which have around 20.08% churned rate.
@@ -131,7 +133,7 @@ Do subscribers with at least one escalated ticket have a higher churn rate than 
 
 ![alt text](image-5.png)
  
-[query5 result] (A:\Downloads\TelecomingBillingsSqlAnalysis\SqlScripts\query_05_escalated_ticket_vs_churn.sql)
+[query5 result] (imagestable/query_05_table.png)
 **Finding:**
 Subscribers with at least one escalated ticket have a churn rate about 1.6 times higher which is 42.57% compared to the  subscribers who never had an escalated ticket which is 25.69%. This is the strongest churn link in the entire analysis.
 
@@ -145,7 +147,7 @@ The high churn of these subscribers may be because the issue was not solved prop
 Does the plan type affect the percentage of heavy users?
 
 ![alt text](image-6.png)
-[query6 result] (A:\Downloads\TelecomingBillingsSqlAnalysis\SqlScripts\query_06_heavy_users_by_plan.sql)
+[query6 result] (imagestable/query_06_table.png)
 
 **Finding:**
 The plan type clearly affects the heavy user percentage. Business has the most heavy users (37.62%), followed by Postpaid Premium (30.92%) and Postpaid Standard (12.92%). Postpaid Basic (0.0024%) and Prepaid (0%) have almost zero heavy users. So the heavy users are mostly on the expensive plans.
