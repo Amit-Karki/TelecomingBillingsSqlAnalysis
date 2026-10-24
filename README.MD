@@ -51,8 +51,7 @@ What is the share of low, mid and high value subscribers in the total subscriber
 **graph** 
 ![alt text](image-7.png)
 
-Result:
-[query0resulttable] (imagestable/query_00_table.png)
+[query0resulttable](imagestable/query_00_table.png)
 
 **Finding:**
 Low Value Subscribers hold the largest share. Almost 1 in 2 subscribers is a Low Value Subscriber (50.00%), followed by High Value at 40.20% and Mid Value at 9.79%.
@@ -68,8 +67,8 @@ How are the bills divided by payment status, and what is the share and money val
 **Visualization**
 ![alt text](image-8.png)
 
-Result:
 [query1result table](imagestable/query_01_table.png)
+
 **Finding:**
 Almost all of the bills are paid on time (85.85%), followed by paid late bills (9.38%), failed bills (2.96%) and unpaid bills (1.82%).
 
@@ -93,13 +92,16 @@ The bad payment percentage is almost the same in every category which is  around
 The company should not target reminders only on the basis of customers with overage or roaming charges, since it would not help. The reason for bad payments has to be found somewhere else, like the payment history of the customer which is further discussed in query 3.
 
 ### **Query 3: Previous Month Payment**
+
 **SQL file:** [03_previous_month_bad_payment.sql](SqlScripts/query_03_previous_month_bad_payment.sql)
 
 **Question:**
 Does a good or bad payment in the previous month affects the bad payment rate of the next bill?
 
 !![alt text](image-3.png)
+
 [query3 result] (imagestable/query_03_table.png)
+
 **Finding:**
 After a good payment month, 13.55% of the bills are bad. After a bad payment month, 17.82% are bad. So a subscriber with a bad payment last month is almost about 1.3 times more likely to pay badly again.
 
