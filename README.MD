@@ -61,7 +61,7 @@ Low Value Subscribers hold the largest share. Almost 1 in 2 subscribers is a Low
 The company should focus on increasing revenue from the low value subscribers, as they are the majority. One option is cheaper data and calling plans. The margin per customer would be lower, but with such a large customer base the total revenue and profit could still rise a lot. High value customers can handle higher data rates, but good service quality matters for them. Mid value customers can be targeted with mid range prices.
 
 ### **Query 1: Payment Status of the Bills**
-**SQL file:** [01_bad_payment_size.sql](SqlScripts/01_bad_payment_size.sql)
+**SQL file:** [01_bad_payment_size.sql](SqlScripts/query_01_bad_payment_size.sql)
 
 **Question:**
 How are the bills divided by payment status, and what is the share and money value of each category?
