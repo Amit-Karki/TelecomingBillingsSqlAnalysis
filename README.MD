@@ -67,7 +67,7 @@ How are the bills divided by payment status, and what is the share and money val
 **Visualization**
 ![alt text](image-8.png)
 
-[query1result table](imagestable/query_01_table.png)
+![query1result table](imagestable/query_01_table.png)
 
 **Finding:**
 Almost all of the bills are paid on time (85.85%), followed by paid late bills (9.38%), failed bills (2.96%) and unpaid bills (1.82%).
