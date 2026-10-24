@@ -52,7 +52,7 @@ What is the share of low, mid and high value subscribers in the total subscriber
 ![alt text](image-7.png)
 
 Result:
-[query result] (imagestable/query_00_table.png)
+[query0result table] (imagestable/query_00_table.png)
 
 **Finding:**
 Low Value Subscribers hold the largest share. Almost 1 in 2 subscribers is a Low Value Subscriber (50.00%), followed by High Value at 40.20% and Mid Value at 9.79%.
