@@ -200,5 +200,5 @@ Telecom-Billing-Churn-Analysis/
 ```
 
 ## **Author**
-**AmitKarki** | [LinkedIn](www.linkedin.com/in/amit-karki-2447063bb
+**AmitKarki** | [LinkedIn](https://www.linkedin.com/in/amit-karki-2447063bb
 )| [Email Me](https://mail.google.com/mail/?view=cm&fs=1&to=your.iiswiikar@gmail.com&su=Hello)
