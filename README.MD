@@ -44,7 +44,7 @@ The dataset used for this analysis is from Kaggle [Kaggle Source data ](https://
 ## **Analysis**
 
 ### **Query 0: Subscriber Type**
-**SQL file:** [00_Subscribertype.sql](SqlScripts/00_Subscribertype.sql)
+**SQL file:** [query_00_Subscribertype.sql](SqlScripts/query_00_Subscribertype.sql)
 
 **Question:**
 What is the share of low, mid and high value subscribers in the total subscriber count?
@@ -76,7 +76,7 @@ Almost all of the bills are paid on time (85.85%), followed by paid late bills (
 The real revenue risk is in the unpaid and failed bills. Together they are only account for about 4.8% of the total bills, but their combined monetory value is about $11 M, which is a significant amount. To recover them, the company can restrict incoming calls, send message reminders regularly and so on. Paid late bills still bring the money with extra revenue so automatic reminders are enough for them but they also can't be ignored completely as late revenue may halt in capital required for infrastructure upgrade, loan repayment etc.
 
 ### **Query 2: Extra Charges and Bad Payment**
-**SQL file:** [02_extra_charges_vs_bad_payment.sql](SqlScripts/02_extra_charges_vs_bad_payment.sql)
+**SQL file:** [02_extra_charges_vs_bad_payment.sql](SqlScripts/query_02_extra_charges_vs_bad_payment.sql)
 
 **Question:**
 Do bills with extra charges (divided into low, mid and high) have a higher bad payment percentage compared to the  bills with no extra charge?
@@ -91,7 +91,7 @@ The bad payment percentage is almost the same in every category which is  around
 The company should not target reminders only on the basis of customers with overage or roaming charges, since it would not help. The reason for bad payments has to be found somewhere else, like the payment history of the customer which is further discussed in query 3.
 
 ### **Query 3: Previous Month Payment**
-**SQL file:** [03_previous_month_bad_payment.sql](SqlScripts/03_previous_month_bad_payment.sql)
+**SQL file:** [03_previous_month_bad_payment.sql](SqlScripts/query_03_previous_month_bad_payment.sql)
 
 **Question:**
 Does a good or bad payment in the previous month affects the bad payment rate of the next bill?
@@ -107,7 +107,7 @@ Subscribers who had a bad payment in the previous month can be sent an alert mes
 *Note: each subscriber's first bill is left out because it has no previous month.*
 
 ### **Query 4: Bad Payment and Churn**
-**SQL file:** [04_bad_payment_vs_churn.sql](SqlScripts/04_bad_payment_vs_churn.sql)
+**SQL file:** [04_bad_payment_vs_churn.sql](SqlScripts/query_04_bad_payment_vs_churn.sql)
 
 **Question:**
 Do subscribers with at least one bad payment during the data period have a higher churn rate than subscribers who always paid on time?
@@ -123,7 +123,7 @@ Subscribers with at least one bad payment have a churn rate about 1.2 times high
 A bad payment alone does not mean the money cannot be recovered, but high churn is dangerous for a healthy company. So the company should study why churn is higher among subscribers with a bad payment. One possible reason is that the frequent automated reminder messages irritate customers, but this is not tested in this analysis.
 
 ### **Query 5: Escalated Tickets and Churn**
-**SQL file:** [05_escalated_ticket_vs_churn.sql](SqlScripts/05_escalated_ticket_vs_churn.sql)
+**SQL file:** [05_escalated_ticket_vs_churn.sql](SqlScripts/query_05_escalated_ticket_vs_churn.sql)
 
 **Question:**
 Do subscribers with at least one escalated ticket have a higher churn rate than subscribers with no escalated ticket?
@@ -139,7 +139,7 @@ Subscribers with at least one escalated ticket have a churn rate about 1.6 times
 The high churn of these subscribers may be because the issue was not solved properly by the higher level support, or because solving it took too long. The company should investigate this in more detail, for example with the resolution time and satisfaction columns, and give priority follow up to escalated customers.
 
 ### **Query 6: Heavy Users by Plan Type**
-**SQL file:** [06_heavy_users_by_plan.sql](SqlScripts/06_heavy_users_by_plan.sql)
+**SQL file:** [06_heavy_users_by_plan.sql](SqlScripts/query_06_heavy_users_by_plan.sql)
 
 **Question:**
 Does the plan type affect the percentage of heavy users?
