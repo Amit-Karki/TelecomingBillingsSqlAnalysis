@@ -51,7 +51,7 @@ What is the share of low, mid and high value subscribers in the total subscriber
 **graph** 
 ![alt text](image-7.png)
 
-[query0resulttable](imagestable/query_00_table.png)
+![query0resulttable](imagestable/query_00_table.png)
 
 **Finding:**
 Low Value Subscribers hold the largest share. Almost 1 in 2 subscribers is a Low Value Subscriber (50.00%), followed by High Value at 40.20% and Mid Value at 9.79%.
@@ -84,7 +84,7 @@ Do bills with extra charges (divided into low, mid and high) have a higher bad p
 ![alt text](image-2.png)
 
 Result:
-[query2 result](imagestable/query_02_table.png)
+![query2 result](imagestable/query_02_table.png)
 **Finding:**
 The bad payment percentage is almost the same in every category which is  around 14%, whether the extra charge is low, mid or high. So the extra charges have no any relation with the bad payment rate.
 
@@ -100,7 +100,7 @@ Does a good or bad payment in the previous month affects the bad payment rate of
 
 !![alt text](image-3.png)
 
-[query3 result](imagestable/query_03_table.png)
+![query3 result](imagestable/query_03_table.png)
 
 **Finding:**
 After a good payment month, 13.55% of the bills are bad. After a bad payment month, 17.82% are bad. So a subscriber with a bad payment last month is almost about 1.3 times more likely to pay badly again.
@@ -118,7 +118,7 @@ Do subscribers with at least one bad payment during the data period have a highe
 
 ![alt text](image-4.png)
 
-[query4 result](imagestable/query_04_table.png)
+![query4 result](imagestable/query_04_table.png)
 
 **Finding:**
 Subscribers with at least one bad payment have a churn rate about 1.2 times higher which is 24.52% compared to the subscribers who always paid on time which have around 20.08% churned rate.
@@ -135,7 +135,7 @@ Do subscribers with at least one escalated ticket have a higher churn rate than 
 
 ![alt text](image-5.png)
  
-[query5 result](imagestable/query_05_table.png)
+![query5 result](imagestable/query_05_table.png)
 **Finding:**
 Subscribers with at least one escalated ticket have a churn rate about 1.6 times higher which is 42.57% compared to the  subscribers who never had an escalated ticket which is 25.69%. This is the strongest churn link in the entire analysis.
 
@@ -149,7 +149,7 @@ The high churn of these subscribers may be because the issue was not solved prop
 Does the plan type affect the percentage of heavy users?
 
 ![alt text](image-6.png)
-[query6 result](imagestable/query_06_table.png)
+![query6 result](imagestable/query_06_table.png)
 
 **Finding:**
 The plan type clearly affects the heavy user percentage. Business has the most heavy users (37.62%), followed by Postpaid Premium (30.92%) and Postpaid Standard (12.92%). Postpaid Basic (0.0024%) and Prepaid (0%) have almost zero heavy users. So the heavy users are mostly on the expensive plans.
